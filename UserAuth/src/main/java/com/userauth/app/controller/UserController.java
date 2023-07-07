@@ -3,15 +3,11 @@ package com.userauth.app.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.userauth.app.model.User;
 import com.userauth.app.repository.UserRepository;
 import com.userauth.app.service.UserService;
@@ -47,6 +43,11 @@ public class UserController {
 		return "register";
 	}
 	
+	@GetMapping("/error")
+	public String error() {
+		return "error";
+	}
+	
 	@PostMapping("/success")
 	public String saveUser(@ModelAttribute("user") User user) {
 		userService.saveUser(user);
@@ -62,13 +63,14 @@ public class UserController {
 	
 	@PostMapping("/loginProcess")
 	public String loginSuccess(@ModelAttribute("userLogin") User user) {
-		String userID = user.getId();
-		Optional<User> userFound = userRepository.findById(userID);
-		if(user.getPassword().equals(userFound.get().getPassword())) {
-			return "editProfile";
+		String userEmail = user.getEmail();
+		boolean userFound = userRepository.existsById(userEmail);
+		Optional<User> userData = userRepository.findById(userEmail);
+		if(userFound == false) {
+			return "redirect:/error";
 		}
 		else {
-			return "home";
+			return "redirect:/editProfile";
 		}
 	}
 }

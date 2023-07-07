@@ -10,37 +10,53 @@ public class User {
 	
 	//User data
 	@Id
-	private String id;
+	private String email;
 	
-	private String username;
+	@Column(name="FirstName")
+	private String firstname;
+	
+	@Column(name="LastName")
+	private String lastname;
+	
+	@Column(name="Password")
 	private String password;
 	
 	//Constructors
 	public User() {
 		
 	}
-	
-	public User(String username, String password) {
+
+	public User(String email, String firstname, String lastname, String password) {
 		super();
-		this.username = username;
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.password = password;
 	}
-
+	
 	//Getters and Setters
-	public String getId() {
-		return id;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getPassword() {
